@@ -1,0 +1,16 @@
+/* style.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column; /* Align content vertically */
+  justify-content: left; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  
+  background-color: #f0f0f0;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1200px; /* Adjust the maximum width as needed */
+}

@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+/* App.css */
+
+.app-container {
+  /* Set the background image */
+  background-image: url("./path/to/your/background.jpg");
+
+  /* Adjust background image properties */
+  background-repeat: no-repeat;
+  background-size: cover; /* You can use "cover", "contain", or "100% 100%" depending on your requirement */
+  /* Other background properties (optional) */
+  background-position: center center;
+  /* If you want the image fixed and not scroll with the content, use the following: */
+  /* background-attachment: fixed; */
+
+  /* Additional styling for the content, if needed */
+  /* For example, centering content on the page */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #fff; /* Set text color to make it readable on the background image */
+}
+
