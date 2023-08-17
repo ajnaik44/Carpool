@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Login = () => {
+const Login = ({ setUserAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-	
-    // In a real application, you would send the username and password to the server for authentication.
-    // For simplicity, we'll mock the login here.
-    if (username === 'demo' && password === 'password') {
-      // Successful login, you can redirect the user to the desired page here.
-      console.log('Login successful!');
-    } else {
+
+    try {
+      if (username === 'admin' && password === 'admin') {
+        // Successful login with admin credentials
+        setError('');
+        setUserAuthenticated(true);
+        navigate('/dashboard');
+      } else {
+        const response = await axios.post('http://localhost:5000/api/login', {
+          username,
+          password,
+        });
+
+        if (response.data.success) {
+          setError('');
+          setUserAuthenticated(true);
+          navigate('/dashboard');
+        } else {
+          setError('Invalid credentials');
+        }
+      }
+    } catch (error) {
       setError('Invalid credentials');
     }
   };

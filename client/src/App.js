@@ -1,21 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar'; // Import the Navbar component
-import LoginForm from './LoginForm'; // Import the LoginForm component
-import Register from './Register'; // Import the Register component
-import './style.css'; // Replace with the correct path to your CSS file
+import Navbar from './Navbar';
+import SideMenu from './SideMenu';
+import Login from './Login';
+import Register from './Register';
+import Dashboard from './Dashboard';
+import './style.css';
+
 const App = () => {
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
+
   return (
-   <div className="app-container">
-    <Router>
-      <Navbar /> {/* Include the Navbar component here */}
-      <Routes>
-         <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<Register />} /> {/* Add the Register route */}
-        {/* Add other routes here */}
-      </Routes>
-    </Router>
-	</div>
+    <div className="app-container">
+      <Router>
+        {!userAuthenticated ? (
+          <Navbar />
+        ) : (
+          <>
+            <SideMenu />
+            <Routes>
+              <Route
+                path="/dashboard/*"
+                element={<Dashboard />}
+              />
+            </Routes>
+          </>
+        )}
+        <Routes>
+          <Route
+            path="/login"
+            element={<Login setUserAuthenticated={setUserAuthenticated} />}
+          />
+          <Route
+            path="/register"
+            element={<Register setUserAuthenticated={setUserAuthenticated} />}
+          />
+        </Routes>
+      </Router>
+    </div>
   );
 };
 

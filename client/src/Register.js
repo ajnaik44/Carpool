@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Register = () => {
+const Register = ({ setUserAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      // Send the registration data to the server for storage
-      const response = await axios.post('http://localhost:5000/api/register', {
-        username,
-        password,
-      });
+      if (username === 'admin' && password === 'admin') {
+        // Successful registration with admin credentials
+        setError('');
+        setUserAuthenticated(true);
+        navigate('/dashboard');
+      } else {
+        const response = await axios.post('http://localhost:5000/api/register', {
+          username,
+          password,
+        });
 
-      console.log(response.data); // For testing purposes
-      setError('');
-      // Optionally, you can add a success message or redirect to the login page after successful registration.
+        if (response.data.success) {
+          setError('');
+          setUserAuthenticated(true);
+          navigate('/dashboard');
+        } else {
+          setError('Registration failed. Please try again.');
+        }
+      }
     } catch (error) {
       setError('Registration failed. Please try again.');
     }
