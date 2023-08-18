@@ -14,7 +14,7 @@ const LandingPage = ({ setUserAuthenticated }) => {
     e.preventDefault();
   
     console.log('Email:', email);
-    console.log('Password:', password); // Add thi
+    console.log('Password:', password);
 
     try {
       if (email === 'admin@admin.com' && password === 'admin') {
