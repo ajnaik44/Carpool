@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom'; // Import Outlet
-import SideMenu from './SideMenu';
+import SideMenu from './Side Menu/SideMenu';
 import Riders from './Riders/Riders';
-import PassengersPage from './Passengers';
+import Passengers from './Passengers/Passengers';
 
 const Dashboard = () => {
   return (
@@ -11,10 +11,10 @@ const Dashboard = () => {
       <Routes>
         <Route
           path="/"
-          element={<Outlet />}> {/* Use Outlet */}
+          element={<Outlet />}>
           <Route index element={<Riders />} />
           <Route path="/riders" element={<Riders />} />
-          <Route path="/passengers" element={<PassengersPage />} />
+          <Route path="/passengers" element={<Passengers />} />
         </Route>
       </Routes>
     </div>

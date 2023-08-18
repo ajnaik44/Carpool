@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar';
-import SideMenu from './SideMenu';
-import Login from './Login';
-import Register from './Register';
+import SideMenu from './Side Menu/SideMenu';
 import Dashboard from './Dashboard';
+import LandingPage from './Landing Page/LandingPage'; // Import the LandingPage component
 import './style.css';
 
 const App = () => {
@@ -14,28 +12,19 @@ const App = () => {
     <div className="app-container">
       <Router>
         {!userAuthenticated ? (
-          <Navbar />
+          <LandingPage setUserAuthenticated={setUserAuthenticated} />
         ) : (
           <>
             <SideMenu />
             <Routes>
               <Route
                 path="/dashboard/*"
-                element={<Dashboard />}
+                element={<Dashboard userAuthenticated={userAuthenticated} />}
               />
             </Routes>
           </>
         )}
-        <Routes>
-          <Route
-            path="/login"
-            element={<Login setUserAuthenticated={setUserAuthenticated} />}
-          />
-          <Route
-            path="/register"
-            element={<Register setUserAuthenticated={setUserAuthenticated} />}
-          />
-        </Routes>
+        
       </Router>
     </div>
   );

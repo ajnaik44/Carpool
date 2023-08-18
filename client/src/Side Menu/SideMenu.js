@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './sidemenu.css';
+import './Sidemenu.css';
 
 const SideMenu = () => {
   return (
@@ -14,7 +14,7 @@ const SideMenu = () => {
         </li>
       </ul>
       <div className="logout-button">
-        <Link to="/logout">Logout</Link> {/* Add a link to the logout page */}
+        <Link to="/logout">Logout</Link>
       </div>
     </div>
   );
