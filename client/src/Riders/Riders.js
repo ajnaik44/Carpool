@@ -10,10 +10,18 @@ const Riders = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const fakePassengers = [
+    { name: 'Rider 1', address: '123 Main St'},
+    { name: 'Rider 2', address: '456 Elm St'},
+    { name: 'Rider 3', address: '789 Oak Ave'},
+    { name: 'Rider 4', address: '555 Pine Rd'},
+  ];
+
   const handlePost = () => {
-    // Implement your post logic here
-    // For example, you can send data to an API or perform any other post operation
-    // Update the state or perform any other necessary actions
+    const results = fakePassengers.filter(passengers =>
+      passengers.address.toLowerCase().includes(startAddress.toLowerCase())
+    );
+    setSearchResults(results);
   };
 
   const handleSelectAddress = address => {
@@ -56,22 +64,19 @@ const Riders = () => {
         Post
       </button>
       <div className="table-container">
-        {/* Render your search results here */}
-        {/* You can map over the searchResults and display them */}
-        {/* Example: */}
-        {/* {searchResults.map((item, index) => (
+      {searchResults.map((fare, index) => (
           <div
-            className={`item ${selectedItem === item.address ? 'selected' : ''}`}
+            className={`item ${selectedItem === fare.address ? 'selected' : ''}`}
             key={index}
           >
-            <div>{item.name}</div>
-            <div>{item.address}</div>
-            <div>{item.price}</div>
+            <div>{fare.name}</div>
+            <div>{fare.address}</div>
+            <div>{fare.price}</div>
             <div>
-              <button onClick={() => handleSelectAddress(item.address)}>Select</button>
+              <button onClick={() => handleSelectAddress(fare.address)}>Select</button>
             </div>
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );
