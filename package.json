@@ -11,7 +11,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js" // Or any other command you want to run
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,7 @@
     "url": "https://github.com/ajnaik44/Carpool/issues"
   },
   "homepage": "https://github.com/ajnaik44/Carpool#readme",
+  "devDependencies": {},
   "description": ""
+ 
 }
