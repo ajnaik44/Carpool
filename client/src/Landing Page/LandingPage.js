@@ -15,34 +15,65 @@ const LandingPage = ({ setUserAuthenticated }) => {
   
     console.log('Email:', email);
     console.log('Password:', password);
-
-    try {
-      if (email === 'admin@admin.com' && password === 'admin') {
+	if(isRegisterMode==true)
+	{
+		try {
+			// Registration flow
+		const response = await axios.post('http://localhost:5000/register', {
+        username: email,
+        password: password,});
+		if (response.data.message === 'Success') {
         setError('');
+        console.log('Registration successful');
+        // Handle navigation or other actions here
+		setError('');
         setUserAuthenticated(true);
-        navigate('/dashboard');
-      } else {
-        const response = await axios.post('http://localhost:5000/api/login', {
-          email,
-          password,
-        });
-
-        if (response.data.success) {
-          setError('');
-          setUserAuthenticated(true);
-          navigate('/dashboard');
-        } else {
-          setError('Invalid credentials');
+		isRegisterMode=false;
+		
+      } 
+		
+		else {
+			setError('Authentication failed');
+        setUserAuthenticated(false);
+		
         }
-      }
+      
     } catch (error) {
-      setError(error.message);
+      setError('Authentication failed');
     }
+	}
+	else {
+    //login flow
+    try {
+			
+		const response = await axios.post('http://localhost:5000/authenticate', {
+        username: email,
+        password: password,});
+		if (response.data.message !=null) {
+        setError('');
+        console.log('Authentication successful');
+        // Handle navigation or other actions here
+		setError('');
+        setUserAuthenticated(true);
+        
+		navigate('/dashboard');
+      } 
+		
+		else {
+			setError('Authentication failed');
+        setUserAuthenticated(false);
+		
+        }
+      
+    } catch (error) {
+      setError('Authentication failed');
+    }
+	}
   };  
 
   return (
     <div className="landing-page">
-      <h1>Welcome to KarPool</h1>
+      <h1>Welcome to CarPool</h1>
       <div className="form-container">
         <form onSubmit={handleFormSubmit} className="landing-form">
           <input

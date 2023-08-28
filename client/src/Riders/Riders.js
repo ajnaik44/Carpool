@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Riders.css';
+import axios from 'axios';
 
 const Riders = () => {
   const navigate = useNavigate();
@@ -9,20 +10,40 @@ const Riders = () => {
   const [destinationPrice, setDestinationPrice] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [error, setError] = useState('');
 
-  const fakePassengers = [
-    { name: 'Rider 1', address: '123 Main St'},
-    { name: 'Rider 2', address: '456 Elm St'},
-    { name: 'Rider 3', address: '789 Oak Ave'},
-    { name: 'Rider 4', address: '555 Pine Rd'},
-  ];
+  const fetchRiders = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/riders');
+      setSearchResults(response.data); // Assuming response.data is an array of riders
+    } catch (error) {
+      console.error('Error fetching riders:', error);
+    }
+  };
 
-  //TODO: CALL MONGO HERE
-  const handlePost = () => {
-    const results = fakePassengers.filter(passengers =>
-      passengers.address.toLowerCase().includes(startAddress.toLowerCase())
-    );
-    setSearchResults(results);
+  useEffect(() => {
+    fetchRiders();
+  }, []);
+
+  const handlePost = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/riders', {
+        start: startAddress,
+        destination: destinationAddress,
+        price: destinationPrice,
+      });
+      if (response.data.message === 'Rider Added') {
+        setError('');
+        console.log('Rider Added');
+        // Handle navigation or other actions here
+        // For example, navigate('/dashboard');
+        fetchRiders();
+      } else {
+        setError('Rider Not Added');
+      }
+    } catch (error) {
+      setError('Rider Not Added');
+    }
   };
 
   const handleSelectAddress = address => {
@@ -31,10 +52,9 @@ const Riders = () => {
 
   return (
     <div className="riders-container">
-      <h2>Where are you wanna going?</h2>
+      <h2>Where are you going?</h2>
 
       <div className="form-grid">
-
         <label htmlFor="start">Start:</label>
         <input
           type="text"
@@ -58,20 +78,22 @@ const Riders = () => {
           value={destinationPrice}
           onChange={e => setDestinationPrice(e.target.value)}
         />
-
       </div>
 
       <button className="post-button" onClick={handlePost}>
         Post
       </button>
+
+      {error && <p>{error}</p>}
+
       <div className="table-container">
-      {searchResults.map((fare, index) => (
+        {searchResults.map((fare, index) => (
           <div
             className={`item ${selectedItem === fare.address ? 'selected' : ''}`}
             key={index}
           >
-            <div>{fare.name}</div>
-            <div>{fare.address}</div>
+            <div>{fare.start}</div>
+            <div>{fare.destination}</div>
             <div>{fare.price}</div>
             <div>
               <button onClick={() => handleSelectAddress(fare.address)}>Select</button>
