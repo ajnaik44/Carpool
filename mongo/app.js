@@ -141,7 +141,64 @@ app.get('/riders', async (req, res) => {
 });
 
 
-// ...
+// ...Passengers
+
+app.post('/passengers', async (req, res) => {
+  console.log('Received POST request at /passengers');
+  console.log('Request Body:', req.body);
+  
+  const { start, destination } = req.body;
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect(); // Connect to MongoDB
+
+    const database = client.db('myDatabase');
+    const collection = database.collection('passengers');
+
+    // Check if the user with the provided username and password exists
+    const rider = await collection.insertOne({ start, destination });
+
+    if (rider) {
+		
+      console.log('Passenger Added');
+      res.status(200).json({ message: 'Passenger Added'});
+    } else {
+      console.log('Passenger Not Added');
+      res.status(500);
+    }
+  } catch (error) {
+    console.error('Error authenticating user:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  } finally {
+    await client.close(); // Close MongoDB connection
+  }
+});
+
+app.get('/passengers', async (req, res) => {
+  console.log('Received GET request at /passengers');
+
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect(); // Connect to MongoDB
+
+    const database = client.db('myDatabase');
+    const collection = database.collection('passengers');
+
+    // Find all passengers and convert the cursor to an array
+    const ridersCursor = collection.find();
+    const ridersArray = await ridersCursor.toArray();
+
+    res.json(ridersArray); // Send the array of passengers as JSON response
+  } catch (error) {
+    console.error('Error fetching passengers:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  } finally {
+    await client.close(); // Close MongoDB connection
+  }
+});
+
 
 // Start the server
 app.listen(PORT, () => {

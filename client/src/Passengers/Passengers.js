@@ -1,27 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Passengers.css';
 
 const Passengers = () => {
-  const navigate = useNavigate();
   const [startAddress, setStartAddress] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
+  const [error, setError] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); 
+  const fetchPassengers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/passengers');
+      setSearchResults(response.data); // Assuming response.data is an array of passengers
+    } catch (error) {
+      console.error('Error fetching passengers:', error);
+    }
+  };
 
-  const fakeFares = [
-    { name: 'Rider 1', address: '123 Main St', price: '$10' },
-    { name: 'Rider 2', address: '456 Elm St', price: '$15' },
-    { name: 'Rider 3', address: '789 Oak Ave', price: '$12' },
-    { name: 'Rider 4', address: '555 Pine Rd', price: '$8' },
-  ];
+  useEffect(() => {
+    fetchPassengers();
+  }, []);
 
-  //TODO: CALL MONGO HERE
-  const handleSearch = () => {
-    const results = fakeFares.filter(fare =>
-      fare.address.toLowerCase().includes(startAddress.toLowerCase())
-    );
-    setSearchResults(results);
+  const handleSearch = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/passengers', {
+        start: startAddress,
+        destination: destinationAddress
+      });
+      if (response.data.message === 'Passenger Added') {
+        setError('');
+        console.log('Passenger Added');
+        setSuccessMessage('Passenger Added Successfully');
+        // Handle navigation or other actions here
+        // For example, navigate('/dashboard');
+        fetchPassengers();
+      } else {
+        setError('Passenger Not Added');
+      }
+    } catch (error) {
+      setError('Passenger Not Added');
+    }
   };
 
   const handleSelectAddress = address => {
@@ -58,16 +78,16 @@ const Passengers = () => {
         Search
       </button>
       <div className="table-container">
-        {searchResults.map((fare, index) => (
+        {searchResults.map((passenger, index) => (
           <div
-            className={`item ${selectedItem === fare.address ? 'selected' : ''}`}
+            className={`item ${selectedItem === passenger.address ? 'selected' : ''}`}
             key={index}
           >
-            <div>{fare.name}</div>
-            <div>{fare.address}</div>
-            <div>{fare.price}</div>
+            <div>{passenger.start}</div>
+            <div>{passenger.destination}</div>
+           
             <div>
-              <button onClick={() => handleSelectAddress(fare.address)}>Select</button>
+              <button onClick={() => handleSelectAddress(passenger.start)}>Select</button>
             </div>
           </div>
         ))}
