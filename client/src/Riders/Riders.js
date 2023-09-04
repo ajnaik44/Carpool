@@ -16,7 +16,10 @@ const Riders = () => {
   useEffect(() => {
     if (searchResults.length > 0) {
       setShowTitle(true);
+      
     }
+    fetchPassengers();
+    
   }, [searchResults]);
 
   const fetchPassengers = async () => {
@@ -107,28 +110,34 @@ const Riders = () => {
       {showTitle && <div className="table-title">Here's the Passengers you could pick up:</div>}
 
       <div className="table-container">
-        {searchResults.map((passenger, index) => (
+        {searchResults.length === 0 ? (
+    <p>No passengers found</p>
+  ) : ( searchResults.map((passenger, index) => (
           <div
             className={`item ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
             key={index}
           >
             <div className="table-item">{passenger.start}</div>
             <div className="table-item">{passenger.destination}</div>
+         
             <div className="table-item">
-              <button
-                onClick={() => handleSelectPassenger(passenger)}
-                className={`select-button ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
-              >
-                {selectedPassengers.includes(passenger) ? 'Selected' : 'Select'}
+                <button
+          onClick={() => handleSelectPassenger(passenger)}
+          className={`select-button ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
+        >
+          {selectedPassengers.includes(passenger) ? 'Selected' : 'Select'}
               </button>
             </div>
           </div>
-        ))}
+        ))
+        )}
       </div>
 
       {showConfirmButton && (
+       
         <Link
-          to={`/dashboard/ConfirmationPage?startAddress=${startAddress}&destinationAddress=${destinationAddress}&destinationPrice=${destinationPrice}&selectedPassengers=${JSON.stringify(selectedPassengers)}`}
+          to={`/dashboard/ConfirmationPage?startAddress=${JSON.stringify(selectedPassengers.map(passenger => passenger.start.trim().replace(/"/,"")).join(', ').replace(/"/g, ''))}&destinationAddress=${JSON.stringify(selectedPassengers.map(passenger => passenger.destination.trim().replace(/"/,"")).join(', ').replace(/"/g, ''))}&destinationPrice=0
+          &selectedPassengers=${JSON.stringify(selectedPassengers)}`}
           className="confirm-button"
         >
           Confirm

@@ -11,6 +11,13 @@ const Passengers = () => {
   const [selectedPassengers, setSelectedPassengers] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
+  useEffect(() => {
+    
+     
+      fetchDrivers();
+   
+
+  }, [searchResults]);
 
   const fetchDrivers = async () => {
     try {
@@ -59,7 +66,7 @@ const Passengers = () => {
     console.log(firstSelectedPassenger.price)
     console.log(firstSelectedPassenger.start)
     console.log(firstSelectedPassenger.destination)
-    const url = `/dashboard/PassengerConfirmationPage?startAddress=${startAddress}&destinationAddress=${destinationAddress}&price=${firstSelectedPassenger.price}`;
+    const url = `/dashboard/PassengerConfirmationPage?startAddress=${firstSelectedPassenger.start}&destinationAddress=${firstSelectedPassenger.destination}&price=${firstSelectedPassenger.price}`;
     navigate(url);
   };
 
@@ -87,31 +94,37 @@ const Passengers = () => {
         </div>
       </div>
       <button className="search-button" onClick={handleSearch}>
-        Search
+        Post
       </button>
       <div className="table-container">
-        {searchResults.map((passenger, index) => (
-          <div
-            className={`item ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
-            key={index}
-          >
-            <div>{passenger.start}</div>
-            <div>{passenger.destination}</div>
-            <div>{passenger.price}</div>
-            <div>
-              <button onClick={() => handleSelectAddress(passenger)}>
-                {selectedPassengers.includes(passenger) ? 'Selected' : 'Select'}
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="item table-header">
+    <div>Source</div>
+    <div>Destination</div>
+    <div>Price</div>
+    <div>Actions</div>
+  </div>
+    {searchResults.map((passenger, index) => (
+      <div
+        className={`item ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
+        key={index}
+      >
+        <div>{passenger.start}</div>
+        <div>{passenger.destination}</div>
+        <div>{passenger.price}</div>
+        <div>
+          <button onClick={() => handleSelectAddress(passenger)}>
+            {selectedPassengers.includes(passenger) ? 'Selected' : 'Select'}
+          </button>
+        </div>
       </div>
-      {selectedPassengers.length > 0 && (
-        <button className="confirm-button" onClick={handleConfirm}>
-          Confirm
-        </button>
-      )}
-    </div>
+    ))}
+  </div>
+  {selectedPassengers.length > 0 && (
+    <button className="confirm-button" onClick={handleConfirm}>
+      Confirm
+    </button>
+  )}
+</div>
   );
 };
 
