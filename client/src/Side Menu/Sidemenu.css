@@ -55,3 +55,33 @@
   background-color: #fff5e1;
   color: #1da1f2;
 }
+
+.menu-links {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-links li {
+  margin: 10px 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  margin-left: 10px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+/* Add this style for the active link */
+.menu-links li a.active-link {
+  border-bottom: 2px solid white; /* Add an underline to the active link */
+}
+
+.menu-links li a:hover {
+  color: #fff5e1;
+}

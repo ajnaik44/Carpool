@@ -19,7 +19,7 @@ const App = () => {
             path="/"
             element={
               userAuthenticated ? (
-                <Navigate to="/dashboard" />
+                <Navigate to="/dashboard/riders" />
               ) : (
                 <LandingPage
                   setUserAuthenticated={setUserAuthenticated}

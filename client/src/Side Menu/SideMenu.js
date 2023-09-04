@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Sidemenu.css';
 
 const SideMenu = ({ setUserAuthenticated }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     setUserAuthenticated(false);
@@ -14,10 +15,14 @@ const SideMenu = ({ setUserAuthenticated }) => {
     <div className="side-menu">
       <ul className="menu-links">
         <li>
-          <Link to="/dashboard/riders">Riders</Link>
+          <Link to="/dashboard/riders" className={location.pathname === '/dashboard/riders' || location.pathname === '/dashboard' ? 'active-link' : ''}>
+            Riders
+          </Link>
         </li>
         <li>
-          <Link to="/dashboard/passengers">Passengers</Link>
+          <Link to="/dashboard/passengers" className={location.pathname === '/dashboard/passengers' ? 'active-link' : ''}>
+            Passengers
+          </Link>
         </li>
       </ul>
       <div className="logout-button">
