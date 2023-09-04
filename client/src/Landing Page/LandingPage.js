@@ -12,64 +12,64 @@ const LandingPage = ({ setUserAuthenticated }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     console.log('Email:', email);
     console.log('Password:', password);
-	if(isRegisterMode==true)
-	{
-		try {
-			// Registration flow
-		const response = await axios.post('http://localhost:5000/register', {
-        username: email,
-        password: password,});
-		if (response.data.message === 'Success') {
-        setError('');
-        console.log('Registration successful');
-        // Handle navigation or other actions here
-		setError('');
-        setUserAuthenticated(true);
-		isRegisterMode=false;
-		
-      } 
-		
-		else {
-			setError('Authentication failed');
-        setUserAuthenticated(false);
-		
+    if (isRegisterMode == true) {
+      try {
+        // Registration flow
+        const response = await axios.post('http://localhost:5000/register', {
+          username: email,
+          password: password,
+        });
+        if (response.data.message === 'Success') {
+          setError('');
+          console.log('Registration successful');
+          // Handle navigation or other actions here
+          setError('');
+          setUserAuthenticated(true);
+          isRegisterMode = false;
         }
-      
-    } catch (error) {
-      setError('Authentication failed');
-    }
-	}
-	else {
-    //login flow
-    try {
-			
-		const response = await axios.post('http://localhost:5000/authenticate', {
-        username: email,
-        password: password,});
-		if (response.data.message !=null) {
-        setError('');
-        console.log('Authentication successful');
-        // Handle navigation or other actions here
-		setError('');
-        setUserAuthenticated(true);
-        
-		navigate('/dashboard');
-      } 
-		
-		else {
-			setError('Authentication failed');
-        setUserAuthenticated(false);
-		
+
+        else {
+          setError('Authentication failed');
+          setUserAuthenticated(false);
+
         }
-      
-    } catch (error) {
-      setError('Authentication failed');
+
+      } catch (error) {
+        setError('Authentication failed');
+      }
     }
-	}
-  };  
+    else {
+      try {
+
+      const response = await axios.post('http://localhost:5000/authenticate', {
+          username: email,
+          password: password,});
+      if (response.data.message !=null) {
+          setError('');
+          console.log('Authentication successful');
+          // Handle navigation or other actions here
+      setError('');
+          setUserAuthenticated(true);
+
+      navigate('/dashboard');
+        } 
+
+      else {
+      	setError('Authentication failed');
+          setUserAuthenticated(false);
+
+          }
+
+      } catch (error) {
+        setError('Authentication failed');
+      }
+      // setUserAuthenticated(true);
+      // navigate('/dashboard');
+    }
+  };
 
   return (
     <div className="landing-page">

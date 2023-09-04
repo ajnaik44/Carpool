@@ -1,52 +1,87 @@
 .passengers-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 10px;
+  margin: 20px;
 }
 
-.table-container {
+label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"] {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid black;
   padding: 8px;
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 5px; /* Add border-radius */
-  background-color: #f2f2f2; /* Add background color */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-size: 16px;
 }
 
 .search-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: #1da1f2;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 .search-button:hover {
   background-color: #0056b3;
 }
 
-.selected-address {
-  margin-top: 20px;
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.table-container {
+  display: grid;
+  gap: 30px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+}
+
+button {
+  background-color: #1da1f2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button.selected {
+  background-color: #0056b3;
 }

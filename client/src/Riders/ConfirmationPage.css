@@ -1,0 +1,48 @@
+.confirmation-container {
+    width: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+  }
+  
+  .confirmation-container h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-top: 50px;
+    color: rgba(29, 161, 242, 0.8);
+  }
+  
+  .confirmation-container h4 {
+    margin-top: 100px;
+  }
+  
+  .confirmation-container p {
+    font-size: 20px;
+    margin-top: 20px;
+    align-items: center;
+  }
+  
+  .confirmation-container .passenger-details {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    margin: 50px;
+  }
+  
+  .confirmation-container .passenger-details p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
+  .confirmation-container .back-button:hover {
+    background-color: #0056b3;
+  }
+  

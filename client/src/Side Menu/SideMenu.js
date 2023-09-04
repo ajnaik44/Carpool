@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Sidemenu.css';
 
-const SideMenu = () => {
+const SideMenu = ({ setUserAuthenticated }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUserAuthenticated(false);
+    navigate('/');
+  };
+
   return (
     <div className="side-menu">
       <ul className="menu-links">
@@ -14,7 +21,9 @@ const SideMenu = () => {
         </li>
       </ul>
       <div className="logout-button">
-        <Link to="/logout">Logout</Link>
+        <Link to="#" onClick={handleLogout}>
+          Logout
+        </Link>
       </div>
     </div>
   );

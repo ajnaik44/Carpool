@@ -1,14 +1,13 @@
-/* sidemenu.css */
 .side-menu {
-  width: 200px;
+  width: 300px;
   height: 100%;
-  background-color: #333;
+  background-color: #1da1f2;
   position: fixed;
   top: 0;
   left: 0;
-  transition: left 0.3s ease-in-out;
   display: flex;
-  flex-direction: column; /* Set the container to a column layout */
+  flex-direction: column;
+  padding-top: 10px;
 }
 
 .menu-links {
@@ -17,22 +16,42 @@
 }
 
 .menu-links li {
-  margin: 20px;
+  margin: 10px 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .menu-links li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
+  margin-left: 10px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu-links li a:hover {
+  color: #fff5e1;
 }
 
 .logout-button {
-  margin-top: auto; /* Push the logout button to the bottom */
-  padding: 20px;
+  margin-top: auto;
+  padding: 50px;
   text-align: center;
 }
 
 .logout-button a {
-  color: white;
+  color: #1da1f2;
   text-decoration: none;
+  font-weight: bold;
+  background-color: white;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-button a:hover {
+  background-color: #fff5e1;
+  color: #1da1f2;
 }

@@ -8,34 +8,30 @@ const Passengers = () => {
   const [destinationAddress, setDestinationAddress] = useState('');
   const [error, setError] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); 
-  const fetchPassengers = async () => {
+  const [selectedPassengers, setSelectedPassengers] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+
+  const fetchDrivers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/passengers');
-      setSearchResults(response.data); // Assuming response.data is an array of passengers
+      const response = await axios.get('http://localhost:5000/riders');
+      setSearchResults(response.data);
     } catch (error) {
       console.error('Error fetching passengers:', error);
     }
   };
 
-  useEffect(() => {
-    fetchPassengers();
-  }, []);
-
   const handleSearch = async () => {
     try {
       const response = await axios.post('http://localhost:5000/passengers', {
         start: startAddress,
-        destination: destinationAddress
+        destination: destinationAddress,
       });
       if (response.data.message === 'Passenger Added') {
         setError('');
         console.log('Passenger Added');
         setSuccessMessage('Passenger Added Successfully');
-        // Handle navigation or other actions here
-        // For example, navigate('/dashboard');
-        fetchPassengers();
+        fetchDrivers();
       } else {
         setError('Passenger Not Added');
       }
@@ -44,8 +40,27 @@ const Passengers = () => {
     }
   };
 
-  const handleSelectAddress = address => {
-    setSelectedItem(address);
+  const handleSelectAddress = (selectedPassenger) => {
+    let updatedSelectedPassengers;
+
+    if (selectedPassengers.includes(selectedPassenger)) {
+      updatedSelectedPassengers = selectedPassengers.filter((passenger) => passenger !== selectedPassenger);
+    } else if (selectedPassengers.length < 4) {
+      updatedSelectedPassengers = [...selectedPassengers, selectedPassenger];
+    } else {
+      updatedSelectedPassengers = selectedPassengers;
+    }
+
+    setSelectedPassengers(updatedSelectedPassengers);
+  };
+
+  const handleConfirm = () => {
+    const firstSelectedPassenger = selectedPassengers[0];
+    console.log(firstSelectedPassenger.price)
+    console.log(firstSelectedPassenger.start)
+    console.log(firstSelectedPassenger.destination)
+    const url = `/dashboard/PassengerConfirmationPage?startAddress=${startAddress}&destinationAddress=${destinationAddress}&price=${firstSelectedPassenger.price}`;
+    navigate(url);
   };
 
   return (
@@ -53,45 +68,49 @@ const Passengers = () => {
       <h2>Where do you wanna go?</h2>
       <div className="form-grid">
         <div>
-          <label htmlFor="start">Start:</label>
+          <label htmlFor="start">Pick-up Address:</label>
           <input
             type="text"
             id="start"
             value={startAddress}
-            onChange={e => setStartAddress(e.target.value)}
+            onChange={(e) => setStartAddress(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="destination">Destination:</label>
+          <label htmlFor="destination">Drop-off Address:</label>
           <input
             type="text"
             id="destination"
             value={destinationAddress}
-            onChange={e => setDestinationAddress(e.target.value)}
+            onChange={(e) => setDestinationAddress(e.target.value)}
           />
         </div>
       </div>
-      <button
-        className="search-button"
-        onClick={handleSearch}
-      >
+      <button className="search-button" onClick={handleSearch}>
         Search
       </button>
       <div className="table-container">
         {searchResults.map((passenger, index) => (
           <div
-            className={`item ${selectedItem === passenger.address ? 'selected' : ''}`}
+            className={`item ${selectedPassengers.includes(passenger) ? 'selected' : ''}`}
             key={index}
           >
             <div>{passenger.start}</div>
             <div>{passenger.destination}</div>
-           
+            <div>{passenger.price}</div>
             <div>
-              <button onClick={() => handleSelectAddress(passenger.start)}>Select</button>
+              <button onClick={() => handleSelectAddress(passenger)}>
+                {selectedPassengers.includes(passenger) ? 'Selected' : 'Select'}
+              </button>
             </div>
           </div>
         ))}
       </div>
+      {selectedPassengers.length > 0 && (
+        <button className="confirm-button" onClick={handleConfirm}>
+          Confirm
+        </button>
+      )}
     </div>
   );
 };
